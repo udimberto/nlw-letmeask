@@ -1,16 +1,11 @@
-import { Button } from './components'
+import './styles/app.scss'
+import AppContexts from './contexts'
+import AppRouter from './AppRouter'
 
-function App() {
+export default function App() {
   return (
-    <>
-      <h1>
-        Hello World
-      </h1>
-      <Button>
-        Aula 01
-      </Button>
-    </>
+    <AppContexts>
+      <AppRouter />
+    </AppContexts>
   );
 }
-
-export default App;

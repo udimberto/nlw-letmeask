@@ -1,0 +1,14 @@
+$this: ".logo";
+
+#{$this},
+#{$this}__img {
+  margin: 0 auto;
+}
+
+#{$this} {
+  display: inline-block;
+
+  &__img {
+    display: block;
+  }
+}

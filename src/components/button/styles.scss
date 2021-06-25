@@ -1,0 +1,50 @@
+$this: ".btn";
+
+$btn_variants:
+  ("danger", var(--color-white), var(--color-danger)),
+  ("google-red", var(--color-white), var(--color-google-red)),
+  ("primary", var(--color-white), var(--color-primary)),
+  ("white", var(--color-black), var(--color-white)),
+;
+
+#{$this} {
+  display: inline-block;
+  padding: 14px 32px 15px;
+  min-height: 50px;
+  outline: 0;
+  border: 0;
+  border-radius: var(--radius);
+  background-color: var(--color-gray-light);
+  color: var(--color-black);
+
+  font-weight: 500;
+  font-size: 16px;
+  text-align: center;
+
+  transition: filter 0.2s;
+
+  &:active, &:focus, &:hover {
+    filter: brightness(0.9);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    filter: brightness(1.5);
+  }
+
+  &:not(:disabled) {
+    cursor: pointer;
+  }
+
+  &--block {
+    display: block;
+    width: 100%;
+  }
+
+  @each $btn_class, $btn_color_text, $btn_color in $btn_variants {
+    &--#{$btn_class} {
+      color: $btn_color_text;
+      background-color: $btn_color;
+    }
+  }
+}

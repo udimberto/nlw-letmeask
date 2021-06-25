@@ -1,0 +1,29 @@
+$this: ".separator";
+
+#{$this} {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+
+  color: var(--color-gray);
+
+  &::before,
+  &::after {
+    content: '';
+    display: flex;
+    flex: 1;
+    height: 1px;
+    background-color: var(--color-gray);
+  }
+
+  &::before {
+    margin-right: 16px;
+  }
+
+  &::after {
+    margin-left: 16px;
+  }
+}

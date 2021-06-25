@@ -1,0 +1,40 @@
+$this: ".form-control";
+
+#{$this} {
+  display: block;
+  width: 100%;
+  padding: 12px 16px;
+
+  border-color:  var(--border-color);
+  border-radius: var(--radius);
+  border-style: var(--border-style);
+  border-width: var(--border-width);
+  outline: 0;
+
+  background: var(--color-input-background);
+  color: var(--color-text);
+
+  transition: all 0.2s;
+
+  &:active, &:focus, &:hover {
+    outline: 0;
+
+    &:not(:disabled) {
+      border-color: var(--border-color-active);
+    }
+  }
+
+  &:disabled {
+    filter: brightness(1.25);
+  }
+}
+
+input {
+  &[type=email],
+  &[type=text],
+  &[type=text] {
+    &#{$this} {
+      height: 50px;
+    }
+  }
+}

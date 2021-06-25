@@ -1,0 +1,42 @@
+$this: ".layout-starter";
+
+#{$this} {
+  display: flex;
+  align-items: stretch;
+  min-height: 100%;
+
+  &__featured,
+  &__main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 40px;
+  }
+
+  &__featured {
+    flex: 5;
+
+    color: var(--color-white);
+    background: var(--color-primary);
+
+    &__figure,
+    &__figure__img {
+      display: block;
+      margin: 0 auto;
+    }
+
+    &__figure {
+      &__img {
+        max-width: 320px;
+      }
+    }
+
+    &__description {
+      margin: 0;
+    }
+  }
+
+  &__main {
+    flex: 7;
+  }
+}
