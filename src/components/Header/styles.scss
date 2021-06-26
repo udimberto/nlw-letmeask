@@ -1,0 +1,16 @@
+$this: ".header";
+
+#{$this} {
+  display: flex;
+  align-items: center;
+  padding: 36px 0 24px;
+
+  &__title {
+    display: flex;
+    margin: 0;
+
+    + .pill {
+      margin-left: 18px;
+    }
+  }
+}

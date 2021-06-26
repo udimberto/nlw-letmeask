@@ -1,0 +1,22 @@
+$this: ".container";
+
+#{$this} {
+  width: 100%;
+  max-width: var(--container-width);
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: var(--container-padding);
+  padding-left: var(--container-padding);
+
+  &--md {
+    max-width: var(--container-width-md);
+  }
+
+  &--sm {
+    max-width: var(--container-width-sm);
+  }
+
+  &--xs {
+    max-width: var(--container-width-xs);
+  }
+}

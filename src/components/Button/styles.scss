@@ -1,0 +1,75 @@
+$this: ".btn";
+
+$btn_variants:
+  ("danger", var(--color-white), var(--color-danger)),
+  ("success", var(--color-white), var(--color-success)),
+  ("primary", var(--color-white), var(--color-primary)),
+  ("white", var(--color-black), var(--color-white)),
+  ("red-google", var(--color-white), var(--color-red-google)),
+;
+
+#{$this} {
+  display: inline-flex;
+  padding: 0 16px;
+  min-height: 50px;
+  outline: 0;
+  border: 0;
+  border-radius: var(--radius);
+  background-color: var(--color-gray-light);
+  color: var(--color-black);
+
+  align-items: center;
+  justify-content: center;
+
+  font-weight: 500;
+  font-size: 16px;
+  text-align: center;
+  text-decoration: none;
+
+  transition: filter 0.2s;
+
+  &:active, &:focus, &:hover {
+    filter: brightness(0.8);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    filter: brightness(1.5);
+  }
+
+  &:not(:disabled) {
+    cursor: pointer;
+  }
+
+  &--block {
+    display: flex;
+    width: 100%;
+  }
+
+  &--bordered {
+    background: transparent;
+    border: 1px solid;
+  }
+
+  &--small {
+    font-size: 14px;
+    min-height: 40px;
+  }
+
+  &__icon {
+    margin-right: 8px;
+  }
+
+  @each $btn_class, $btn_color_text, $btn_color in $btn_variants {
+    &--#{$btn_class} {
+      color: $btn_color_text;
+      background-color: $btn_color;
+
+      &#{$this}--bordered {
+        color: $btn_color;
+        background-color: transparent;
+        border-color: $btn_color;
+      }
+    }
+  }
+}

@@ -1,0 +1,8 @@
+$this: ".user";
+
+#{$this} {
+  &__avatar {
+    background-color: var(--color-gray-light);
+    border-radius: 50%;
+  }
+}

@@ -1,39 +1,45 @@
-import { useState, SyntheticEvent } from 'react'
+import { FormEvent, useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import { useAuth } from 'hooks'
+import { room } from 'services'
 import {
   Button,
   Input,
-  Logo,
   NavLink,
 } from 'components'
 
 export function RoomsNew() {
+  const history = useHistory()
   const { afterLogin } = useAuth()
+  const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const [roomTitle, setRoomTitle] = useState('')
 
-  function handleSubmit(evt: SyntheticEvent) {
+  function handleRoomNew(evt: FormEvent) {
     evt.preventDefault()
+    setError('')
     setLoading(true)
-    afterLogin(() => {
-      setTimeout(() => {
+    afterLogin(async () => {
+      try {
+        const { key: roomId } = await room.new({ title: roomTitle })
+
+        history.push(`/rooms/${roomId}`)
+
+      } catch (err) {
+        setError(JSON.stringify(err))
         setLoading(false)
-      }, 2000)
+        console.error(err)
+      }
     })
   }
 
   return (
-    <section
-      className="centered fw"
-      style={{ maxWidth: '320px' }}
-    >
-      <div className="m-15-t m-40-b text-center">
-        <Logo />
-      </div>
+    <section className="container container--sm text-center">
       <form
         noValidate
-        onSubmit={handleSubmit}
+        onSubmit={handleRoomNew}
       >
-        <div className="m-35-b text-center">
+        <div className="m-35-b">
           <h2>
             Crie uma nova sala
           </h2>
@@ -41,11 +47,13 @@ export function RoomsNew() {
         <div className="m-15-ver">
           <Input
             type="text"
-            name="room"
-            id="room"
+            name="roomName"
+            id="roomName"
             placeholder="Nome da sala"
-            disabled={loading}
             autoFocus
+            disabled={loading}
+            value={roomTitle}
+            onChange={({ target: { value }}) => setRoomTitle(value)}
           />
         </div>
         <div className="m-15-ver">
@@ -53,18 +61,24 @@ export function RoomsNew() {
             block
             type="submit"
             variant="primary"
-            disabled={loading}
+            disabled={loading || !roomTitle}
           >
             {loading ? 'Criando sala...' : 'Criar sala'}
           </Button>
         </div>
         <div className="m-15-ver">
-          <p>
-            Quer entrar em uma sala já existente?
-            <NavLink to="/">
-              {' Clique aqui'}
-            </NavLink>.
-          </p>
+          {!error ? (
+            <p className="text-helper">
+              {'Quer entrar em uma sala já existente? '}
+              <NavLink to="/">
+                Clique aqui
+              </NavLink>
+            </p>
+          ) : (
+            <p className="text-error">
+              {error}
+            </p>
+          )}
         </div>
       </form>
     </section>
@@ -73,4 +87,3 @@ export function RoomsNew() {
 
 RoomsNew.exact = true
 RoomsNew.path = '/rooms/new'
-RoomsNew.layout = 'LayoutStarter'

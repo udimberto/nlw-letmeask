@@ -1,0 +1,13 @@
+@each $color_class, $color, $color_inverse in $colors {
+  .bg,
+  .background {
+    &-#{$color_class} {
+      color: $color_inverse;
+      background-color: $color;
+    }
+  }
+
+  .text-#{$color_class} {
+    color: $color;
+  }
+}

@@ -1,0 +1,47 @@
+$this: ".flex";
+
+$flex_sizes: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12;
+
+#{$this} {
+  display: flex;
+
+  &--inline {
+    display: inline-flex;
+  }
+
+  &--column {
+    flex-direction: column;
+  }
+
+  &--row {
+    flex-direction: row;
+  }
+
+  &--centered {
+    align-items: center;
+    justify-content: center;
+  }
+
+  &--centered-x,
+  &--centered-hor,
+  &--centered-horizontal {
+    justify-content: center;
+  }
+
+  &--centered-y,
+  &--centered-ver,
+  &--centered-vertical {
+    align-items: center;
+  }
+
+  &--sb,
+  &--space-between {
+    justify-content: space-between;
+  }
+
+  @each $size in $flex_sizes {
+    &--#{$size} {
+      flex: $size;
+    }
+  }
+}

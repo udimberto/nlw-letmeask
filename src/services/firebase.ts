@@ -16,4 +16,18 @@ firebase.initializeApp(firebaseConfig)
 const firebaseAuth = firebase.auth()
 const firebaseDatabase = firebase.database()
 
-export { firebase, firebaseAuth, firebaseDatabase }
+function firebaseRef(path: string) {
+  return firebaseDatabase.ref(path)
+}
+
+function getUser() {
+  return firebaseAuth.currentUser
+}
+
+export {
+  firebase,
+  firebaseAuth,
+  firebaseDatabase,
+  firebaseRef,
+  getUser,
+}

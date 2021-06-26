@@ -13,12 +13,22 @@ html, body {
   flex-direction: column;
 }
 
-html, body, #root {
+html, body, figure, #root {
   margin: 0;
   padding: 0;
 }
 
+a:not(.btn) {
+  color: var(--color-primary);
+  transition: color 0.2s;
+
+  &:active, &:focus, &:hover {
+    color: var(--color-primary-hover);
+  }
+}
+
 #root {
+  overflow: auto;
   min-height: 100%;
 }
 
@@ -29,17 +39,4 @@ html, body, #root {
 .centered {
   margin-right: auto;
   margin-left: auto;
-}
-
-a {
-  text-decoration: none;
-}
-
-a:not(.btn) {
-  color: var(--color-primary);
-  transition: color 0.2s;
-
-  &:active, &:focus, &:hover {
-    color: var(--color-primary-hover);
-  }
 }

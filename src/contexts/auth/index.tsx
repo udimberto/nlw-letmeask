@@ -1,10 +1,12 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import { firebase, firebaseAuth } from 'services'
-import { AuthContextType, UserType } from './types'
+import { UserType } from 'types'
+import { AuthContextType } from './types'
 
 export const AuthContextRef = createContext({} as AuthContextType)
 
 export function AuthContext(props: any) {
+  const [loading, setLoading] = useState(false)
   const [user, setUser] = useState<UserType>()
 
   /**
@@ -16,10 +18,12 @@ export function AuthContext(props: any) {
     if (response) {
       const { displayName: name, photoURL: avatar, uid: id } = response
 
-      if (!name || !avatar) throw new Error('Auth: User missing information')
+      if (!name || !avatar) throw new Error('Não foi possível realizar sua autenticação.')
 
       setUser({ avatar, id, name })
     }
+
+    setLoading(false)
   }
 
   /**
@@ -52,6 +56,7 @@ export function AuthContext(props: any) {
     const unsubscribe = firebaseAuth.onAuthStateChanged(checkAndLoadUser)
 
     return () => {
+      setLoading(false)
       unsubscribe()
     }
   }, [])
@@ -63,6 +68,7 @@ export function AuthContext(props: any) {
         setUser,
         signInWithGoogle,
         afterLogin,
+        loading,
       }}
       {...props}
     />

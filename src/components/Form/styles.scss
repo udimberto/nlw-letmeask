@@ -1,0 +1,106 @@
+$this: ".form-control";
+
+$form_control_variants:
+  ("error", var(--color-error), var(--color-error-inverse)),
+  ("success", var(--color-success), var(--color-success-inverse)),
+;
+
+#{$this} {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+
+  select,
+  textarea,
+  input[type=email],
+  input[type=password],
+  input[type=text],
+  input[type=url] {
+    display: flex;
+    width: 100%;
+    padding: 12px 16px;
+
+    border-color:  var(--border-color);
+    border-radius: var(--radius);
+    border-style: var(--border-style);
+    border-width: var(--border-width);
+    outline: 0;
+
+    box-shadow: 0px 2px 12px var(--color-shadow);
+    background: var(--color-input-background);
+    color: var(--color-text);
+
+    transition: all 0.3s ease;
+
+    &:active, &:focus, &:hover {
+      outline: 0;
+
+      &:not(:disabled) {
+        border-color: var(--border-color-active);
+      }
+    }
+
+    &:disabled {
+      filter: brightness(1.25);
+    }
+  }
+
+  input[type=email],
+  input[type=password],
+  input[type=text],
+  input[type=url] {
+    height: 50px;
+  }
+
+  textarea {
+    min-height: 130px;
+    resize: vertical;
+  }
+
+  &__message {
+    padding: 0;
+    color: inherit;
+    transition: all 0.3s ease;
+  }
+
+  &--message {
+    #{$this}__message {
+      padding: 8px 16px 4px;
+    }
+  }
+
+  @each $variant_class, $variant_color, $variant_inverse in $form_control_variants {
+    &--#{$variant_class} {
+      #{$this} {
+        &__message {
+          color: $variant_color;
+        }
+      }
+
+      select,
+      textarea,
+      input[type=email],
+      input[type=password],
+      input[type=text],
+      input[type=url] {
+        &:not(:disabled) {
+          border-color: $variant_color;
+        }
+      }
+    }
+  }
+}
+
+input {
+  &[type=email],
+  &[type=text],
+  &[type=text] {
+    &#{$this} {
+      height: 50px;
+    }
+  }
+}
+

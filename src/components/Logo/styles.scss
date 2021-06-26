@@ -1,0 +1,11 @@
+$this: ".logo";
+
+#{$this} {
+  display: inline-flex;
+
+  &__figure,
+  &__figure__img {
+    margin: 0;
+    display: flex;
+  }
+}

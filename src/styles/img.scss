@@ -1,0 +1,15 @@
+$this: ".img";
+
+#{$this} {
+  &-responsive {
+    height: auto;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  &-centered {
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

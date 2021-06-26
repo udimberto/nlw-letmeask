@@ -1,0 +1,62 @@
+$this: ".clipboard-btn";
+
+#{$this} {
+  display: inline-flex;
+  cursor: pointer;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+
+  font-weight: 500;
+  min-height: 40px;
+
+  margin: 0;
+  padding: 0;
+  outline: 0;
+
+  border-radius: 8px;
+  border: 1px solid var(--color-primary);
+
+  background: transparent;
+
+  transition: all 0.2s;
+
+  &__icon,
+  &__content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+
+  &__icon {
+    padding: 10px;
+
+    color: var(--color-primary-inverse);
+    background: var(--color-primary);
+  }
+
+  &__content {
+    padding: 0 16px;
+  }
+
+  &:active, &:focus, &:hover {
+    border: 1px solid var(--color-primary-hover);
+
+    #{$this}__icon {
+      background: var(--color-primary-hover);
+    }
+  }
+
+  &--success,
+  &--success:active,
+  &--success:focus,
+  &--success:hover {
+    color: var(--color-success);
+    border-color: var(--color-success);
+
+    #{$this}__icon {
+      background: var(--color-success);
+    }
+  }
+}

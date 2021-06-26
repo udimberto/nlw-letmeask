@@ -7,10 +7,11 @@
   --color-gray: #A8A8B3;
   --color-gray-dark: #737380;
   --color-gray-hover: #7E7E86;
-  --color-gray-hover-light: #CECECE;
+  --color-gray-light-hover: #CECECE;
 
   --color-black: #29292E;
 
+  --color-red-google: #EA4335;
   --color-red: #E73F5D;
   --color-red-hover: #D73754;
 
@@ -21,7 +22,7 @@
   --color-purple: #835AFD;
   --color-purple-hover: #6F4BD8;
 
-  --color-google-red: #EA4335;
+  --color-green: #14c86e;
 
   --color-background: var(--color-white-background);
   --color-text: var(--color-black);
@@ -29,14 +30,59 @@
 
   --color-primary: var(--color-purple);
   --color-primary-hover: var(--color-purple-hover);
+  --color-primary-inverse: var(--color-white);
 
   --color-danger: var(--color-red);
   --color-danger-hover: var(--color-red-hover);
+  --color-danger-inverse: var(--color-white);
+
+  --color-error: var(--color-red);
+  --color-error-hover: var(--color-red-hover);
+  --color-error-inverse: var(--color-white);
+
+  --color-success: var(--color-green);
+
+  --color-helper: var(--color-gray-dark);
+  --color-helper-hover: var(--color-black);
+  --color-helper-inverse: var(--color-black);
+
+  --color-shadow: rgba(0, 0, 0, 0.04);
+
+  --container-padding: 16px;
+  --container-width: 1152px;
+  --container-width-md: 832px;
+  --container-width-sm: 352px;
+  --container-width-xs: 316px;
 
   --radius: 8px;
 
   --border-width: 1px;
   --border-style: solid;
-  --border-color: var(--color-gray);
+  --border-color: var(--color-gray-light);
   --border-color-active: var(--color-primary);
 }
+
+$colors:
+  ("white", var(--color-white), var(--color-black)),
+  ("white-background", var(--color-white-background), var(--color-black)),
+  ("white-details", var(--color-white-details), var(--color-black)),
+
+  ("gray-light", var(--color-gray-light), var(--color-black)),
+  ("gray", var(--color-gray), var(--color-black)),
+  ("gray-dark", var(--color-gray-dark), var(--color-black)),
+
+  ("black", var(--color-black), var(--color-white)),
+
+  ("red", var(--color-red), var(--color-white)),
+
+  ("pink-light", var(--color-pink-light), var(--color-white)),
+  ("pink", var(--color-pink), var(--color-white)),
+  ("pink-dark", var(--color-pink-dark), var(--color-white)),
+
+  ("purple", var(--color-purple), var(--color-white)),
+
+  ("primary", var(--color-primary), var(--color-primary-inverse)),
+  ("danger", var(--color-danger), var(--color-danger-inverse)),
+  ("error", var(--color-error), var(--color-error-inverse)),
+  ("helper", var(--color-helper), var(--color-helper-inverse)),
+;

@@ -1,0 +1,14 @@
+$this: ".pill";
+
+#{$this} {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 32px;
+  padding: 0 16px;
+  border-radius: 64px;
+
+  color: var(--color-white);
+  background-color: var(--color-pink-dark);
+}
