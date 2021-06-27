@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { firebaseRef } from 'services'
 import { ErrorType } from 'types'
 
-export function useWebSocket(path: string) {
+export function useItemListen(path: string) {
   const [error, setError] = useState<ErrorType>({})
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState(null)

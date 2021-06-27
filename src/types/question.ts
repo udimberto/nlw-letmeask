@@ -1,10 +1,11 @@
+import { LikesType } from './like'
 import { UserType } from './user'
 
 export type QuestionType = {
   content: string;
   author?: UserType;
   id?: string;
-  likes?: Array<string>;
+  likes?: LikesType;
   isAnswered?: boolean;
   isHighlighted?: boolean;
 }

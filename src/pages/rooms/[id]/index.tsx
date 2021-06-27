@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { firebaseRef, room } from 'services'
 import { ErrorType, RoomType } from 'types'
-import { Button, ClipboardButton, Header, NewQuestion } from 'components'
+import { Button, ClipboardButton, Header, NewQuestion, Questions } from 'components'
 import emptyImg from 'assets/images/empty-questions.svg'
 
 export type RoomParams = {
@@ -20,6 +20,7 @@ export function Room() {
   const { isOwner, title } = roomDetails
   const notFound = !!(!title && !loading)
   const isEmpty = !!(!loading && !roomQuestionsLoading && !counter)
+  const questionsPath = `/rooms/${roomId}/questions`
 
   useEffect(() => {
     function handleQuestions(snapshot: any) {
@@ -34,9 +35,14 @@ export function Room() {
       const questions = (
         Object
         .keys(questionsRef)
-        .map((id) => ({ id, ...questionsRef[id] }))
+        .map((id) => ({
+          id,
+          ...questionsRef[id],
+          likes: Object.values(questionsRef[id]?.likes || {}),
+        }))
         .reverse()
-        .sort(({ isHighlighted: highA }, { isHighlighted: highB }) => highA - highB)
+        .sort(({ isHighlighted: highA }, { isHighlighted: highB }) => highB - highA)
+        .sort(({ likes: likesA }, { likes: likesB }) => Object.values(likesB).length - Object.values(likesA).length)
       )
       const counter = questions.length
 
@@ -55,7 +61,7 @@ export function Room() {
         setRoomQuestionsLoading(true)
         setRoomQuestions({ counter: 0, questions: [] })
 
-        firebaseRef(`/rooms/${roomId}/questions`).on('value', handleQuestions)
+        firebaseRef(questionsPath).on('value', handleQuestions)
 
         setTimeout(() => {
           setRoomQuestionsLoading(false)
@@ -69,7 +75,7 @@ export function Room() {
     }
 
     fetchRoom()
-  }, [roomId])
+  }, [questionsPath, roomId])
 
   return (
     <>
@@ -138,16 +144,11 @@ export function Room() {
               />
             {/* )} */}
 
-            {questions.map(({ content, id }: any) => (
-              <div
-                key={`room-question-${roomId}-${id}`}
-                className="p-16"
-              >
-                <div>
-                  {content}
-                </div>
-              </div>
-            ))}
+            <Questions
+              isOwner={isOwner}
+              questions={questions}
+              questionsPath={questionsPath}
+            />
 
             {isEmpty && (
               <section

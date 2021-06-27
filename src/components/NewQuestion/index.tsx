@@ -70,8 +70,8 @@ export function NewQuestion(props: NewQuestionProps) {
         onChange={({ target: { value } }) => setQuestion(value)}
         error={error.message}
       />
-      <footer className="flex flex--row flex--sb p-16-ver">
-        <div className="flex flex--1 flex--centered-y text-500">
+      <div className="flex flex--row flex--sb p-16-ver">
+        <div className="flex flex--centered-y flex--1 text-500">
           {(!user || !user.name) ? (
             <p className="text-helper">
               Antes de enviar sua pergunta, solicitaremos que você faça login.
@@ -83,7 +83,7 @@ export function NewQuestion(props: NewQuestionProps) {
             />
           )}
         </div>
-        <div>
+        <div className="flex flex--centered-y">
           <Button
             variant={success ? 'success' : 'primary'}
             style={{ minWidth: '177px' }}
@@ -94,7 +94,7 @@ export function NewQuestion(props: NewQuestionProps) {
             )}
           </Button>
         </div>
-      </footer>
+      </div>
     </form>
   )
 }

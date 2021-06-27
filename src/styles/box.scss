@@ -1,0 +1,14 @@
+$this: ".box";
+
+#{$this} {
+  border-radius: var(--radius);
+  background-color: var(--color-white);
+
+  &--shadow {
+    box-shadow: 0 2px 12px var(--color-shadow);
+  }
+
+  &--disabled {
+    background-color: var(--color-white-background);
+  }
+}
