@@ -3,6 +3,7 @@ export type RoomType = {
   authorId?: string;
   title?: string;
 
+  endedAt?: Date;
   isEmpty?: boolean;
   isOwner?: boolean;
   counter?: number;

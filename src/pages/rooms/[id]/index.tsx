@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { firebaseRef, room } from 'services'
 import { ErrorType, RoomType } from 'types'
-import { Button, ClipboardButton, Header, NewQuestion, Questions } from 'components'
+import { ClipboardButton, Header, NewQuestion, Questions, RoomActionEnd } from 'components'
 import emptyImg from 'assets/images/empty-questions.svg'
 
 export type RoomParams = {
@@ -17,7 +17,7 @@ export function Room() {
   const [roomQuestions, setRoomQuestions]= useState<any>({})
   const [roomQuestionsLoading, setRoomQuestionsLoading] = useState(true)
   const { counter = 0, questions = [] } = roomQuestions
-  const { isOwner, title } = roomDetails
+  const { endedAt, isOwner, title } = roomDetails
   const notFound = !!(!title && !loading)
   const isEmpty = !!(!loading && !roomQuestionsLoading && !counter)
   const questionsPath = `/rooms/${roomId}/questions`
@@ -41,8 +41,9 @@ export function Room() {
           likes: Object.values(questionsRef[id]?.likes || {}),
         }))
         .reverse()
-        .sort(({ isHighlighted: highA }, { isHighlighted: highB }) => highB - highA)
         .sort(({ likes: likesA }, { likes: likesB }) => Object.values(likesB).length - Object.values(likesA).length)
+        .sort(({ isHighlighted: highA }, { isHighlighted: highB }) => highB - highA)
+        .sort(({ isAnswered: answeredA }, { isAnswered: answeredB }) => answeredA - answeredB)
       )
       const counter = questions.length
 
@@ -57,7 +58,7 @@ export function Room() {
       try {
         const response = await room.get(roomId)
 
-        setRoomDetails(response)
+        setRoomDetails({ id: roomId, ...response })
         setRoomQuestionsLoading(true)
         setRoomQuestions({ counter: 0, questions: [] })
 
@@ -99,7 +100,7 @@ export function Room() {
           <div className="container" style={{ position: 'relative' }}>
             <div
               id="roomActions"
-              className="flex flex--inline"
+              className="flex flex--inline gap-8"
               style={{
                 position: 'absolute',
                 right: 'var(--container-padding)',
@@ -113,15 +114,9 @@ export function Room() {
                 {roomId}
               </ClipboardButton>
               {isOwner && (
-                <Button
-                  bordered
-                  small
-                  variant="primary"
-                  style={{ marginLeft: '8px', minWidth: '130px' }}
-                  id="roomActionEnd"
-                >
-                  Encerrar sala
-                </Button>
+                <RoomActionEnd
+                  room={roomDetails}
+                />
               )}
             </div>
           </div>
@@ -134,23 +129,28 @@ export function Room() {
               }}
             >
               Sala {loading ? 'carregando...' : (title || 'não encontrada')}
+              {endedAt && ` (encerrada em ${new Date(endedAt).toLocaleDateString()})`}
             </Header>
 
-            {/* {!isOwner && ( */}
-              <NewQuestion
-                id="roomNewQuestion"
-                roomId={roomId}
-                loading={loading}
-              />
-            {/* )} */}
+            {!endedAt && (
+              <div className="p-16-b">
+                <NewQuestion
+                  id="roomNewQuestion"
+                  roomId={roomId}
+                  loading={loading}
+                />
+              </div>
+            )}
 
-            <Questions
-              isOwner={isOwner}
-              questions={questions}
-              questionsPath={questionsPath}
-            />
-
-            {isEmpty && (
+            {!isEmpty ? (
+              <div className="p-40-b">
+                <Questions
+                  isOwner={isOwner}
+                  questions={questions}
+                  questionsPath={questionsPath}
+                />
+              </div>
+            ) : (
               <section
                 id="roomEmpty"
                 className="flex flex--1 flex--column flex--centered text-center"
@@ -170,7 +170,7 @@ export function Room() {
                   <h3 id="roomEmptyTitle">
                     Nenhuma pergunta por aqui...
                   </h3>
-                  <p id="roomEmptyMessage" className="text-md text-gray-dark">
+                  <p id="roomEmptyMessage" className="text-sm text-gray-dark">
                     {isOwner ? (
                       'Envie o código desta sala para seus amigos e comece a responder perguntas!'
                     ) : (

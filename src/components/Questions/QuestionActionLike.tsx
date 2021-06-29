@@ -1,23 +1,35 @@
-import { useItem } from 'hooks'
+import classNames from 'classnames'
+import { useAuth, useFirebase } from 'hooks'
+import { QuestionActionProps } from './types'
 import { Button } from '../Button'
 
-export function QuestionLike({
-  likes,
-  disabled,
+export function QuestionActionLike({
+  question,
   questionPath,
-  userId,
-}: any) {
-  const counter = likes.length
-  const liked = likes.includes(userId)
-  const { error, loading, success, toggle } = useItem()
-  const className = `question__action${liked ? ' active' : ''}${(error.message) ? ' error' : ''}${success ? ' success' : ''}`
+  disabled,
+  userId = '',
+} : QuestionActionProps) {
+  const { afterLogin, loading: loadingAuth } = useAuth()
+  const { likes } = question
+  const counter = likes?.length
+  const liked = likes?.includes(userId)
+  const { error, loading, toggle } = useFirebase()
+  const className = classNames(
+    'question__action',
+    {
+      'active': liked,
+      'error': error.message,
+    }
+  )
 
   async function handleLike() {
-    if (disabled || loading) {
+    if (loading || loadingAuth) {
       return
     }
 
-    await toggle(`${questionPath}/likes`, userId, userId)
+    afterLogin(async () => {
+      await toggle(`${questionPath}/likes`, userId, userId)
+    })
   }
 
   return (
@@ -32,9 +44,8 @@ export function QuestionLike({
       )}
       <Button
         small
-        variant="white"
-        title="Curtir"
-        disabled={disabled || loading}
+        title={liked ? 'Descurtir' : 'Curtir'}
+        disabled={disabled}
         onClick={handleLike}
         className={className}
       >

@@ -7,22 +7,23 @@ import { TextArea } from '../Form'
 import { User } from '../User'
 
 export interface NewQuestionProps extends FormHTMLAttributes<HTMLFormElement> {
-  roomId: string;
-  loading?: boolean;
+  roomId: string
+  disabled?: boolean
+  loading?: boolean
 }
 
-export function NewQuestion(props: NewQuestionProps) {
-  const {
-    roomId,
-    loading: loadingParent,
-    ...rest
-  } = props
+export function NewQuestion({
+  roomId,
+  disabled: disabledParent,
+  loading: loadingParent,
+  ...rest
+} : NewQuestionProps) {
   const { afterLogin, user, loading: loadingUser } = useAuth()
   const [error, setError] = useState<ErrorType>({})
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const [question, setQuestion] = useState('')
-  const disabled = loading || loadingParent || success || !roomId
+  const disabled = disabledParent || loading || loadingParent || success || !roomId
 
   async function handleNewQuestion(evt: FormEvent) {
     evt.preventDefault()
@@ -47,7 +48,7 @@ export function NewQuestion(props: NewQuestionProps) {
         setTimeout(() => {
           setSuccess(false)
           setQuestion('')
-        }, 5000)
+        }, 1500)
       })
     } catch(err) {
       setError(err)

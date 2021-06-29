@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { firebaseRef } from 'services'
 import { ErrorType } from 'types'
 
-export function useItem(dataType: any = null, successDelay: number = 1500) {
+export function useFirebase(dataType: any = null, successDelay: number = 1500) {
   const [error, setError] = useState<ErrorType>({})
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState(dataType)
@@ -40,8 +40,29 @@ export function useItem(dataType: any = null, successDelay: number = 1500) {
     }
   }
 
+  async function _generic(
+    path:string = '',
+    data: any,
+    method: 'push' | 'remove' | 'set' | 'update'
+  ) {
+    reset()
+
+    try {
+      const result = await firebaseRef(path)[method](data)
+
+      setData(result)
+      successful()
+
+      return result
+    } catch (err) {
+      setError(err)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   async function push(path = '', data: any) {
-    return firebaseRef(path).push(data)
+    return _generic(path, data, 'push')
   }
 
   async function remove(path = '') {
@@ -49,7 +70,11 @@ export function useItem(dataType: any = null, successDelay: number = 1500) {
   }
 
   async function set(path = '', data: any) {
-    return firebaseRef(path).set(data)
+    return _generic(path, data, 'set')
+  }
+
+  async function update(path = '', data: any) {
+    return _generic(path, data, 'update')
   }
 
   async function toggle(path = '', key: string = '', data: any = '') {
@@ -88,5 +113,6 @@ export function useItem(dataType: any = null, successDelay: number = 1500) {
     set,
     success,
     toggle,
+    update,
   }
 }

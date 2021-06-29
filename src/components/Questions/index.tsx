@@ -1,31 +1,22 @@
 import { useAuth } from 'hooks'
-import { LikesType, QuestionType } from 'types'
+import { QuestionsProps } from './types'
 import { Question } from './Question'
-import { QuestionActions } from './QuestionActions'
-import { QuestionLike } from './QuestionLike'
-import './actions.scss'
-
-export type QuestionsProps = {
-  isOwner?: boolean
-  likes?: LikesType
-  loading?: boolean
-  questions?: Array<QuestionType>
-  questionsPath: string
-}
+import { QuestionActionAnswered } from './QuestionActionAnswered'
+import { QuestionActionHighlighted } from './QuestionActionHighlighted'
+import { QuestionActionLike } from './QuestionActionLike'
+import { QuestionActionRemove } from './QuestionActionRemove'
+import './question.scss'
 
 export function Questions({
   isOwner = false,
   questions = [],
   questionsPath = '',
-}: QuestionsProps) {
+} : QuestionsProps) {
   const { user } = useAuth()
   const { id: userId = '' } = user || {}
 
   return (
-    <section
-      id="roomQuestions"
-      className="p-16-t"
-    >
+    <section id="roomQuestions">
       {questions.map((question: any) => (
         <Question
           key={`roomQuestion${question.id}`}
@@ -33,16 +24,29 @@ export function Questions({
           question={question}
         >
           <div className="flex flex--centered-y flex--row gap-4">
-            <QuestionLike
-              likes={question?.likes}
-              userId={userId}
+            <QuestionActionLike
+              question={question}
               questionPath={`${questionsPath}/${question.id}`}
+              disabled={question?.isAnswered}
+              userId={userId}
             />
             {isOwner && (
-              <QuestionActions
-                // userId={userId}
-                // questionPath={`${questionsPath}/${question.id}`}
-              />
+              <>
+                <QuestionActionAnswered
+                  question={question}
+                  questionPath={`${questionsPath}/${question.id}`}
+                />
+                <QuestionActionHighlighted
+                  question={question}
+                  questionPath={`${questionsPath}/${question.id}`}
+                  disabled={question?.isAnswered}
+                />
+                <QuestionActionRemove
+                  question={question}
+                  questionPath={`${questionsPath}/${question.id}`}
+                  disabled={question?.isAnswered}
+                />
+              </>
             )}
           </div>
         </Question>

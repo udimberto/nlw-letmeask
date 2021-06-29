@@ -1,0 +1,57 @@
+$this: ".question";
+
+#{$this} {
+  &__action {
+    transition: all 0.3s;
+    filter: none;
+    background-color: transparent;
+
+    svg {
+      circle, path {
+        stroke: var(--color-helper);
+        transition: stroke 0.3s;
+      }
+    }
+
+    &:active, &:focus, &:hover {
+      color: var(--color-primary-hover);
+      background-color: rgba(0, 0, 0, 0.05);
+
+      &:disabled {
+        background-color: transparent;
+      }
+    }
+
+    &.active {
+      color: var(--color-primary);
+
+      svg {
+        circle, path {
+          stroke: var(--color-primary);
+        }
+      }
+    }
+
+    &.success {
+      color: var(--color-success);
+
+      svg {
+        circle, path {
+          stroke: var(--color-success);
+        }
+      }
+    }
+
+    &:active, &:focus, &:hover {
+      &.error:not(:disabled) {
+        color: var(--color-error);
+
+        svg {
+          circle, path {
+            stroke: var(--color-error);
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,24 +1,29 @@
-import { AllHTMLAttributes } from 'react'
-import { QuestionType } from 'types'
+import classNames from 'classnames'
 import { User } from '../User'
-
-export interface QuestionProps extends AllHTMLAttributes<HTMLDivElement> {
-  question: QuestionType;
-  likeCallback?: () => void;
-  resolveCallback?: () => void;
-  removeCallback?: () => void;
-}
+import { QuestionProps } from './types'
 
 export function Question({
   children,
   question,
   ...rest
-}: QuestionProps) {
-  const { author, content } = question
+} : QuestionProps) {
+  const {
+    author,
+    content,
+    isAnswered,
+    isHighlighted,
+  } = question
 
   return (
     <article
-      className="box box--shadow p-24 m-16-t"
+      className={classNames(
+        ' p-24 m-16-t',
+        'box box--shadow',
+        {
+          'box--disabled': isAnswered,
+          'box--primary': !isAnswered && isHighlighted,
+        }
+      )}
       {...rest}
     >
       <div className="text-sm">

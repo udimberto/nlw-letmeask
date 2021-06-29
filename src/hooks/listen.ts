@@ -20,8 +20,9 @@ export function useItemListen(path: string) {
 
     reset()
 
-    firebaseRef(path)
-    .on('value', (snapshot) => {
+    const itemRef = firebaseRef(path)
+
+    itemRef.on('value', (snapshot) => {
       setLoading(false)
 
       if (!snapshot.exists()) {
@@ -31,6 +32,10 @@ export function useItemListen(path: string) {
 
       setData(snapshot.val())
     })
+
+    return () => {
+      itemRef.off()
+    }
   }, [path])
 
   return {

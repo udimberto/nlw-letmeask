@@ -1,14 +1,22 @@
 $this: ".box";
 
 #{$this} {
+  border: 1px solid transparent;
   border-radius: var(--radius);
   background-color: var(--color-white);
+  transition: all 0.3s;
 
   &--shadow {
     box-shadow: 0 2px 12px var(--color-shadow);
   }
 
   &--disabled {
-    background-color: var(--color-white-background);
+    color: var(--color-gray-dark);
+    background-color: var(--color-gray-light);
+  }
+
+  &--primary {
+    border: 1px solid var(--color-primary);
+    background-color: var(--color-primary-light);
   }
 }

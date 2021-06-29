@@ -1,11 +1,12 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import { firebase, firebaseAuth } from 'services'
-import { UserType } from 'types'
+import { ErrorType, UserType } from 'types'
 import { AuthContextType } from './types'
 
 export const AuthContextRef = createContext({} as AuthContextType)
 
 export function AuthContext(props: any) {
+  const [error, setError] = useState<ErrorType>({})
   const [loading, setLoading] = useState(false)
   const [user, setUser] = useState<UserType>()
 
@@ -42,11 +43,19 @@ export function AuthContext(props: any) {
    * @param callback
    */
   async function afterLogin(callback: Function) {
-    if (!user) {
-      await signInWithGoogle()
-    }
+    setLoading(true)
 
-    callback(user)
+    try {
+      if (!user) {
+        await signInWithGoogle()
+      }
+
+      callback(user)
+    } catch (err) {
+      setError(err)
+    } finally {
+      setLoading(false)
+    }
   }
 
   /**
@@ -69,6 +78,7 @@ export function AuthContext(props: any) {
         signInWithGoogle,
         afterLogin,
         loading,
+        error,
       }}
       {...props}
     />
